@@ -1,0 +1,15 @@
+#dark_window {
+    background-color:	#191c24;
+    color:cadetblue;
+    border-color:cadetblue;
+}
+#dark_tab {
+    background-color:	#191c24;
+    color:cadetblue;
+    border-color:cadetblue;
+}
+#dark_view {
+    color:azure;
+    font-size:13px;
+    background-color:#1e242c;
+}
