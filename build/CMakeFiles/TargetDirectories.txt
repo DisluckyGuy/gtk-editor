@@ -1,3 +1,3 @@
-C:/Mostafa/Code/C++/main/gtk_Notes/build/CMakeFiles/notes_app.dir
-C:/Mostafa/Code/C++/main/gtk_Notes/build/CMakeFiles/edit_cache.dir
-C:/Mostafa/Code/C++/main/gtk_Notes/build/CMakeFiles/rebuild_cache.dir
+/home/mostafa/code/gtk-notes/build/CMakeFiles/notes_app.dir
+/home/mostafa/code/gtk-notes/build/CMakeFiles/edit_cache.dir
+/home/mostafa/code/gtk-notes/build/CMakeFiles/rebuild_cache.dir

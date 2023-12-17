@@ -1,0 +1,1 @@
+/usr/bin/g++ -g CMakeFiles/notes_app.dir/main.cpp.o CMakeFiles/notes_app.dir/Notes.cpp.o CMakeFiles/notes_app.dir/Window.cpp.o -o notes_app  -lgtkmm-4.0 -lpangomm-2.48 -lglibmm-2.68 -lcairo-gobject -lharfbuzz -lgraphene-1.0 -lgdk_pixbuf-2.0 -lgio-2.0 -lpango-1.0 -lsigc-3.0 -lgiomm-2.68 -lcairomm-1.16 -lpangocairo-1.0 -lgtk-4 -lglib-2.0 -lcairo -lgobject-2.0 

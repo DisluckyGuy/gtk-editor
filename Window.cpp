@@ -5,6 +5,7 @@ NotesWindow::NotesWindow() : Gtk::ApplicationWindow()
     add_action("save", sigc::mem_fun(*this, &NotesWindow::writeToFile));
     initWindow();
     initTabs();
+    initDialog();
     ///initNoteRects();
     initMainGrid();
 }
@@ -56,6 +57,9 @@ void NotesWindow::setBufferText(std::string path, textPage* page)
     if (path.find_last_of("/") != std::string::npos) {
         page->label.set_text(path.substr(path.find_last_of("/") + 1, path[path.size()-1]));
         textTabs.set_tab_label(page->scrollable, page->label);
+    } else {
+        page->label.set_text(path);
+        textTabs.set_tab_label(page->scrollable, page->label);
     }
 }
 
@@ -71,6 +75,76 @@ void NotesWindow::writeToFile()
     
 }
 
+void NotesWindow::on_open_file()
+{
+    auto dialog = new Gtk::FileChooserDialog("choose a file", Gtk::FileChooser::Action::OPEN);
+    dialog->set_transient_for(*this);
+    dialog->set_destroy_with_parent();
+    dialog->add_button("_Cancel", Gtk::ResponseType::CANCEL);
+    dialog->add_button("_Open", Gtk::ResponseType::OK);
+    dialog->set_modal();
+    dialog->signal_response().connect(sigc::bind(
+    sigc::mem_fun(*this, &NotesWindow::on_file_dialog_response), dialog));
+    dialog->set_transient_for(*this);
+    dialog->show();
+}
+
+void NotesWindow::on_new_file()
+{
+    auto dialog = new Gtk::FileChooserDialog("choose a directory for your file", Gtk::FileChooser::Action::SAVE);
+    dialog->set_transient_for(*this);
+    dialog->add_button("_Create", Gtk::ResponseType::OK);
+    dialog->add_button("_Cancel", Gtk::ResponseType::CANCEL);
+    dialog->set_modal();
+    
+    dialog->signal_response().connect(sigc::bind(sigc::mem_fun(*this, &NotesWindow::on_new_file_dialog_response), dialog));
+    dialog->show();
+
+}
+
+void NotesWindow::on_file_dialog_response(int response_id, Gtk::FileChooserDialog* dialog)
+{
+    switch (response_id)
+    {
+    case Gtk::ResponseType::CANCEL: {
+        dialog->close();
+        break;
+    }
+    
+    case Gtk::ResponseType::OK: {
+        std::string path = dialog->get_file()->get_path();
+        addPage(path);
+        dialog->close();
+    }
+    default:
+        break;
+    
+    delete dialog;
+    }
+}
+
+void NotesWindow::on_new_file_dialog_response(int response_id, Gtk::FileChooserDialog *dialog)
+{
+    switch (response_id)
+    {
+    case Gtk::ResponseType::CANCEL: {
+        dialog->close();
+        break;
+    }
+    
+    case Gtk::ResponseType::OK: {
+        std::string path = dialog->get_file()->get_path();
+        std::string name = dialog->get_current_name();
+        newPage(path, name);
+        dialog->close();
+    }
+    default:
+        break;
+    
+    delete dialog;
+    }
+}
+
 void NotesWindow::initWindow()
 {
     set_title("MyNotes");
@@ -80,35 +154,16 @@ void NotesWindow::initWindow()
 void NotesWindow::initTabs()
 {
 
-    textPage* newPage = new textPage;
-
     textTabs.set_expand();
     textTabs.set_name("dark_tab");
     textTabs.get_first_child()->set_name("dark_tab");
     textTabs.get_last_child()->set_name("dark_tab");
     
+}
 
-    tabContents.push_back(newPage);
-    for (textPage* page : tabContents) {
-        page->buffer = Gtk::TextBuffer::create();
-        page->buffer->set_enable_undo();
-        page->view.set_buffer(page->buffer);
+void NotesWindow::initDialog()
+{
 
-        page->view.set_name("dark_view"); 
-        page->scrollable.set_name("dark_view");
-        page->view.set_margin(5);
-        
-        page->scrollable.set_expand();
-        page->scrollable.set_child(page->view);
-        page->pageNumber = 0;
-        textTabs.append_page(page->scrollable, page->label);
-        textTabs.set_tab_reorderable(page->scrollable);
-        page->filePath = "../text.txt";
-        
-
-    }
-    setBufferText(tabContents[0]->filePath,tabContents[0]);
-    addPage("../text2.txt");
 }
 
 void NotesWindow::initNoteRects()
@@ -172,4 +227,15 @@ void NotesWindow::addPage(std::string path)
     textTabs.set_tab_reorderable(newPage->scrollable);
     newPage->filePath = path;
     setBufferText(newPage->filePath,newPage);
+}
+
+void NotesWindow::newPage(std::string path, std::string name)
+{
+    std::filebuf fb;
+
+    if (!fb.open(path, std::ios::out)){
+        std::cout << "couldn't create file in path " << path << std::endl; 
+    }
+
+    addPage(path);
 }

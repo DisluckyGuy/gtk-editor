@@ -36,6 +36,16 @@ void NotesApp::on_file_save()
   mainWindow->writeToFile();
 }
 
+void NotesApp::on_open_file()
+{
+  mainWindow->on_open_file();
+}
+
+void NotesApp::on_new_file()
+{
+  mainWindow->on_new_file();
+}
+
 void NotesApp::create_window()
 {
   auto provider = Gtk::CssProvider::create();
@@ -65,24 +75,16 @@ void NotesApp::create_window()
 
 void NotesApp::on_startup()
 {
-      //Call the base class's implementation:
+
   Gtk::Application::on_startup();
-
-  //Create actions for menus and toolbars.
-  //We can use add_action() because Gtk::Application derives from Gio::ActionMap.
-
-  //File|New sub menu:
-  //add_action("save", sigc::mem_fun(*this, &NotesWindow::writeToFile));
+  add_action("quit", sigc::mem_fun(*this, &NotesApp::quit));
   add_action("darktheme",sigc::mem_fun(*this, &NotesApp::on_dark_theme));
   add_action("lighttheme", sigc::mem_fun(*this, &NotesApp::on_light_theme));
   add_action("save", sigc::mem_fun(*this, &NotesApp::on_file_save));
+  add_action("openFile", sigc::mem_fun(*this, &NotesApp::on_open_file));
+  add_action("newFile", sigc::mem_fun(*this, &NotesApp::on_new_file));
   set_accel_for_action("app.save", "<primary>s");
-  //add_action("newgoo",
-  //  sigc::mem_fun(*this, &NotesApp::on_menu_file_new_generic))
-  //File menu:
-  //add_action("quit", sigc::mem_fun(*this, &NotesApp::on_menu_file_quit))
-  //Help menu:
-  //add_action("about", sigc::mem_fun(*this, &NotesApp::on_menu_help_about));
+  set_accel_for_action("app.openFile", "<primary>o");
 
   menuBuilder = Gtk::Builder::create();
 
@@ -95,7 +97,6 @@ void NotesApp::on_startup()
     std::cerr << "Building menus failed: " << ex.what();
   }
 
-  //Get the menubar and the app menu, and add them to the application:
   auto object = menuBuilder->get_object("menu-example");
   auto gmenu = std::dynamic_pointer_cast<Gio::Menu>(object);
   if (!gmenu)
@@ -113,3 +114,5 @@ void NotesApp::on_activate()
 {
     create_window();
 }
+
+

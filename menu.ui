@@ -10,6 +10,16 @@
           <attribute name='action'>app.save</attribute>
           <attribute name='accel'>&lt;control&gt;s</attribute>
         </item>
+        <item>
+          <attribute name='label' translatable='yes'>new _File</attribute>
+          <attribute name='action'>app.newFile</attribute>
+          <attribute name='accel'>&lt;control&gt;n</attribute>
+        </item>
+        <item>
+          <attribute name='label' translatable='yes'>Open _File</attribute>
+          <attribute name='action'>app.openFile</attribute>
+          <attribute name='accel'>&lt;control&gt;o</attribute>
+        </item>
       </section>
       
       <section>
