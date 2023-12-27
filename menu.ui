@@ -11,8 +11,13 @@
           <attribute name='accel'>&lt;control&gt;s</attribute>
         </item>
         <item>
-          <attribute name='label' translatable='yes'>new _File</attribute>
-          <attribute name='action'>app.newFile</attribute>
+          <attribute name='label' translatable='yes'>_Save As</attribute>
+          <attribute name='action'>app.saveas</attribute>
+          <attribute name='accel'>&lt;control&gt;&lt;control&gt;s</attribute>
+        </item>
+        <item>
+          <attribute name='label' translatable='yes'>_New</attribute>
+          <attribute name='action'>app.new</attribute>
           <attribute name='accel'>&lt;control&gt;n</attribute>
         </item>
         <item>

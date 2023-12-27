@@ -30,6 +30,7 @@ class NotesApp : public Gtk::Application
     void on_dark_theme();
     void on_light_theme();
     void on_file_save();
+    void on_file_save_as();
     void on_open_file();
     void on_new_file();
     void create_window();

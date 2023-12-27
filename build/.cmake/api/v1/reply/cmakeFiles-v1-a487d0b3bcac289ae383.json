@@ -6,7 +6,7 @@
 		},
 		{
 			"isGenerated" : true,
-			"path" : "build/CMakeFiles/3.27.7/CMakeSystem.cmake"
+			"path" : "build/CMakeFiles/3.28.1/CMakeSystem.cmake"
 		},
 		{
 			"isCMake" : true,
@@ -20,11 +20,11 @@
 		},
 		{
 			"isGenerated" : true,
-			"path" : "build/CMakeFiles/3.27.7/CMakeCCompiler.cmake"
+			"path" : "build/CMakeFiles/3.28.1/CMakeCCompiler.cmake"
 		},
 		{
 			"isGenerated" : true,
-			"path" : "build/CMakeFiles/3.27.7/CMakeCXXCompiler.cmake"
+			"path" : "build/CMakeFiles/3.28.1/CMakeCXXCompiler.cmake"
 		},
 		{
 			"isCMake" : true,
@@ -145,8 +145,8 @@
 	"kind" : "cmakeFiles",
 	"paths" : 
 	{
-		"build" : "/home/mostafa/code/gtk-notes/build",
-		"source" : "/home/mostafa/code/gtk-notes"
+		"build" : "/home/mostafa/Code/gtk-notes/build",
+		"source" : "/home/mostafa/Code/gtk-notes"
 	},
 	"version" : 
 	{

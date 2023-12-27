@@ -39,7 +39,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "notes_app::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-notes_app-Debug-ffe98a0f92769a71fad9.json",
+					"jsonFile" : "target-notes_app-Debug-127001a2aa6771fc1d19.json",
 					"name" : "notes_app",
 					"projectIndex" : 0
 				}
@@ -49,8 +49,8 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "/home/mostafa/code/gtk-notes/build",
-		"source" : "/home/mostafa/code/gtk-notes"
+		"build" : "/home/mostafa/Code/gtk-notes/build",
+		"source" : "/home/mostafa/Code/gtk-notes"
 	},
 	"version" : 
 	{

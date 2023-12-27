@@ -8,13 +8,17 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/mostafa/code/gtk-notes/Notes.cpp" "CMakeFiles/notes_app.dir/Notes.cpp.o" "gcc" "CMakeFiles/notes_app.dir/Notes.cpp.o.d"
-  "/home/mostafa/code/gtk-notes/Window.cpp" "CMakeFiles/notes_app.dir/Window.cpp.o" "gcc" "CMakeFiles/notes_app.dir/Window.cpp.o.d"
-  "/home/mostafa/code/gtk-notes/main.cpp" "CMakeFiles/notes_app.dir/main.cpp.o" "gcc" "CMakeFiles/notes_app.dir/main.cpp.o.d"
+  "/home/mostafa/Code/gtk-notes/Notes.cpp" "CMakeFiles/notes_app.dir/Notes.cpp.o" "gcc" "CMakeFiles/notes_app.dir/Notes.cpp.o.d"
+  "/home/mostafa/Code/gtk-notes/Window.cpp" "CMakeFiles/notes_app.dir/Window.cpp.o" "gcc" "CMakeFiles/notes_app.dir/Window.cpp.o.d"
+  "/home/mostafa/Code/gtk-notes/main.cpp" "CMakeFiles/notes_app.dir/main.cpp.o" "gcc" "CMakeFiles/notes_app.dir/main.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.
 set(CMAKE_Fortran_TARGET_LINKED_INFO_FILES
+  )
+
+# Targets to which this target links which contain Fortran sources.
+set(CMAKE_Fortran_TARGET_FORWARD_LINKED_INFO_FILES
   )
 
 # Fortran module output directory.

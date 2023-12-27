@@ -5,8 +5,6 @@ NotesWindow::NotesWindow() : Gtk::ApplicationWindow()
     add_action("save", sigc::mem_fun(*this, &NotesWindow::writeToFile));
     initWindow();
     initTabs();
-    initDialog();
-    ///initNoteRects();
     initMainGrid();
 }
 
@@ -66,7 +64,9 @@ void NotesWindow::setBufferText(std::string path, textPage* page)
 void NotesWindow::writeToFile()
 {
 
-    
+    if (tabContents[textTabs.get_current_page()]->filePath == "") {
+        on_file_save_as();
+    }
     std::filebuf fb;
     std::string str = tabContents[textTabs.get_current_page()]->buffer->get_text();
     fb.open(tabContents[textTabs.get_current_page()]->filePath, std::ios::out);
@@ -85,21 +85,35 @@ void NotesWindow::on_open_file()
     dialog->set_modal();
     dialog->signal_response().connect(sigc::bind(
     sigc::mem_fun(*this, &NotesWindow::on_file_dialog_response), dialog));
-    dialog->set_transient_for(*this);
     dialog->show();
 }
 
 void NotesWindow::on_new_file()
 {
-    auto dialog = new Gtk::FileChooserDialog("choose a directory for your file", Gtk::FileChooser::Action::SAVE);
+    // auto dialog = new Gtk::MessageDialog();
+    // dialog->set_transient_for(*this);
+    // dialog->add_button("_Create", Gtk::ResponseType::OK);
+    // dialog->add_button("_Cancel", Gtk::ResponseType::CANCEL);
+    // dialog->set_modal();
+    
+    // //dialog->signal_response().connect(sigc::bind(sigc::mem_fun(*this, &NotesWindow::on_new_file_dialog_response), dialog));
+    // dialog->show();
+    newUntitled();
+
+}
+
+void NotesWindow::on_file_save_as()
+{
+     auto dialog = new Gtk::FileChooserDialog("choose a directory for your file", Gtk::FileChooser::Action::SAVE);
     dialog->set_transient_for(*this);
+    dialog->set_destroy_with_parent();
     dialog->add_button("_Create", Gtk::ResponseType::OK);
     dialog->add_button("_Cancel", Gtk::ResponseType::CANCEL);
     dialog->set_modal();
-    
-    dialog->signal_response().connect(sigc::bind(sigc::mem_fun(*this, &NotesWindow::on_new_file_dialog_response), dialog));
+    dialog->signal_response().connect(sigc::bind(
+    sigc::mem_fun(*this, &NotesWindow::on_file_save_as_dialogue_response), dialog));
+    dialog->set_transient_for(*this);
     dialog->show();
-
 }
 
 void NotesWindow::on_file_dialog_response(int response_id, Gtk::FileChooserDialog* dialog)
@@ -145,6 +159,28 @@ void NotesWindow::on_new_file_dialog_response(int response_id, Gtk::FileChooserD
     }
 }
 
+void NotesWindow::on_file_save_as_dialogue_response(int response_id, Gtk::FileChooserDialog *dialog)
+{
+    switch (response_id)
+    {
+    case Gtk::ResponseType::CANCEL: {
+        dialog->close();
+        break;
+    }
+    
+    case Gtk::ResponseType::OK: {
+        std::string path = dialog->get_file()->get_path();
+        std::string name = dialog->get_current_name();
+        saveFileAs(path, name);
+        dialog->close();
+    }
+    default:
+        break;
+    
+    delete dialog;
+    }
+}
+
 void NotesWindow::initWindow()
 {
     set_title("MyNotes");
@@ -159,38 +195,6 @@ void NotesWindow::initTabs()
     textTabs.get_first_child()->set_name("dark_tab");
     textTabs.get_last_child()->set_name("dark_tab");
     
-}
-
-void NotesWindow::initDialog()
-{
-
-}
-
-void NotesWindow::initNoteRects()
-{
-    //newNote.set_label("+");
-    //newNote.set_size_request(75,105);
-    ////newNote.set_hexpand(false);
-    //noteButtons.push_back(&newNote);
-    //notesGrid.set_expand();
-//
-    ////notesGrid.set_orientation(Gtk::Orientation::VERTICAL);
-    //notesGrid.set_expand();
-    //notesGrid.set_margin(10);
-    //notesGrid.set_row_spacing(10);
-    //notesGrid.set_column_spacing(10);
-    //for (Gtk::Button* button : noteButtons) {
-    //    
-    //    notesGrid.attach(*button,0,0,1,1);
-    //}
-//
-    //notesFrame.set_child(notesGrid);
-    //notesFrame.set_expand();
-    //notesFrame.set_halign(Gtk::Align::FILL);
-    //notesFrame.set_valign(Gtk::Align::FILL);
-    //
-//
-    //
 }
 
 void NotesWindow::initMainGrid()
@@ -224,7 +228,7 @@ void NotesWindow::addPage(std::string path)
     newPage->pageNumber = 0;
 
     textTabs.append_page(newPage->scrollable, newPage->label);
-    textTabs.set_tab_reorderable(newPage->scrollable);
+    //textTabs.set_tab_reorderable(newPage->scrollable);
     newPage->filePath = path;
     setBufferText(newPage->filePath,newPage);
 }
@@ -238,4 +242,55 @@ void NotesWindow::newPage(std::string path, std::string name)
     }
 
     addPage(path);
+}
+
+void NotesWindow::newUntitled()
+{
+    textPage* newPage = new textPage;
+
+    textTabs.set_expand();
+    textTabs.set_name("dark_tab");
+    textTabs.get_first_child()->set_name("dark_tab");
+    textTabs.get_last_child()->set_name("dark_tab");
+    
+
+    tabContents.push_back(newPage);
+    newPage->buffer = Gtk::TextBuffer::create();
+    newPage->buffer->set_enable_undo();
+
+    newPage->view.set_buffer(newPage->buffer);
+    newPage->view.set_name("dark_view");
+    newPage->view.set_margin(5);
+
+    newPage->label.set_text("untitled");
+
+    newPage->scrollable.set_name("dark_view");
+    newPage->scrollable.set_expand();
+    newPage->scrollable.set_child(newPage->view);
+    newPage->pageNumber = 0;
+
+    textTabs.append_page(newPage->scrollable, newPage->label);
+    //textTabs.set_tab_reorderable(newPage->scrollable);
+}
+
+void NotesWindow::newPageWithName()
+{
+}
+
+void NotesWindow::saveFileAs(std::string path, std::string name)
+{
+    std::filebuf fb;
+    if (!fb.open(path, std::ios::out)) {
+        std::cout << "couldn't save to file path: " << path << std::endl;
+    }
+    
+    if (tabContents[textTabs.get_current_page()]->filePath == "") {
+        if (textTabs.get_tab_label_text(tabContents[textTabs.get_current_page()]->scrollable) == "untitled") {
+            textTabs.set_tab_label_text(tabContents[textTabs.get_current_page()]->scrollable, name);
+        }
+        tabContents[textTabs.get_current_page()]->filePath = path;
+    }
+    std::string str = tabContents[textTabs.get_current_page()]->buffer->get_text();
+    std::ostream os(&fb);
+    os << str;
 }

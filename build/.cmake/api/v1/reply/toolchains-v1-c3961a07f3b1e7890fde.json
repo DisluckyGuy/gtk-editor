@@ -10,16 +10,16 @@
 				{
 					"includeDirectories" : 
 					[
-						"/usr/lib/gcc/x86_64-redhat-linux/13/include",
+						"/usr/lib/gcc/x86_64-pc-linux-gnu/13.2.1/include",
 						"/usr/local/include",
+						"/usr/lib/gcc/x86_64-pc-linux-gnu/13.2.1/include-fixed",
 						"/usr/include"
 					],
 					"linkDirectories" : 
 					[
-						"/usr/lib/gcc/x86_64-redhat-linux/13",
-						"/usr/lib64",
-						"/lib64",
-						"/usr/lib"
+						"/usr/lib/gcc/x86_64-pc-linux-gnu/13.2.1",
+						"/usr/lib",
+						"/lib"
 					],
 					"linkFrameworkDirectories" : [],
 					"linkLibraries" : 
@@ -49,19 +49,19 @@
 				{
 					"includeDirectories" : 
 					[
-						"/usr/include/c++/13",
-						"/usr/include/c++/13/x86_64-redhat-linux",
-						"/usr/include/c++/13/backward",
-						"/usr/lib/gcc/x86_64-redhat-linux/13/include",
+						"/usr/include/c++/13.2.1",
+						"/usr/include/c++/13.2.1/x86_64-pc-linux-gnu",
+						"/usr/include/c++/13.2.1/backward",
+						"/usr/lib/gcc/x86_64-pc-linux-gnu/13.2.1/include",
 						"/usr/local/include",
+						"/usr/lib/gcc/x86_64-pc-linux-gnu/13.2.1/include-fixed",
 						"/usr/include"
 					],
 					"linkDirectories" : 
 					[
-						"/usr/lib/gcc/x86_64-redhat-linux/13",
-						"/usr/lib64",
-						"/lib64",
-						"/usr/lib"
+						"/usr/lib/gcc/x86_64-pc-linux-gnu/13.2.1",
+						"/usr/lib",
+						"/lib"
 					],
 					"linkFrameworkDirectories" : [],
 					"linkLibraries" : 

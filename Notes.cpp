@@ -36,6 +36,11 @@ void NotesApp::on_file_save()
   mainWindow->writeToFile();
 }
 
+void NotesApp::on_file_save_as()
+{
+  mainWindow->on_file_save_as();
+}
+
 void NotesApp::on_open_file()
 {
   mainWindow->on_open_file();
@@ -81,9 +86,12 @@ void NotesApp::on_startup()
   add_action("darktheme",sigc::mem_fun(*this, &NotesApp::on_dark_theme));
   add_action("lighttheme", sigc::mem_fun(*this, &NotesApp::on_light_theme));
   add_action("save", sigc::mem_fun(*this, &NotesApp::on_file_save));
+  add_action("saveas", sigc::mem_fun(*this, &NotesApp::on_file_save_as));
   add_action("openFile", sigc::mem_fun(*this, &NotesApp::on_open_file));
-  add_action("newFile", sigc::mem_fun(*this, &NotesApp::on_new_file));
+  add_action("new", sigc::mem_fun(*this, &NotesApp::on_new_file));
   set_accel_for_action("app.save", "<primary>s");
+  set_accel_for_action("app.saveas", "<primary><shift>s");
+  set_accel_for_action("app.new", "<primary>n");
   set_accel_for_action("app.openFile", "<primary>o");
 
   menuBuilder = Gtk::Builder::create();
