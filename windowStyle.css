@@ -13,3 +13,18 @@
     font-size:15px;
     background-color:#1e242c;
 }
+#light_window {
+    background-color:	whitesmoke;
+    color:black;
+    border-color:cadetblue;
+}
+#light_tab {
+    background-color:	whitesmoke;
+    color:black;
+    border-color:cadetblue;
+}
+#light_view {
+    color:black;
+    font-size:15px;
+    background-color:whitesmoke;
+}

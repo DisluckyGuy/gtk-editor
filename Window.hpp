@@ -41,9 +41,11 @@ class NotesWindow : public Gtk::ApplicationWindow
     void on_new_file_dialog_response(int response_id, Gtk::FileChooserDialog* dialog);
     void on_file_save_as_dialogue_response(int response_id, Gtk::FileChooserDialog* dialog);
     void on_no_file_opened_dialogue_response(int response_id,  Gtk::MessageDialog *dialog);
+    void on_buffer_changed(textPage* page);
 
     private:
 
+    Theme theme;
     Gtk::Grid mainGrid;
     Gtk::Frame notesFrame;
     Gtk::Button newNote;

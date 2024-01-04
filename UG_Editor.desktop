@@ -6,5 +6,5 @@ GenericName=Geditor
 Comment=A bad text editor by dislucky
 Icon=editorApp
 StartupNotify=true
-Exec=@bindir@/build/notes_app
+Exec=@bindir@/notes_app
 Categories=GNOME;GTK;Utility

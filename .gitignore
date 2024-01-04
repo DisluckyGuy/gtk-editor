@@ -1,2 +1,6 @@
 /.vscode
 /build
+/configs/*
+/tests
+/build
+/configs/toOpen.config
