@@ -25,6 +25,11 @@
           <attribute name='action'>app.openFile</attribute>
           <attribute name='accel'>&lt;control&gt;o</attribute>
         </item>
+        <item>
+          <attribute name='label' translatable='yes'>_Close Tab</attribute>
+          <attribute name='action'>app.closetab</attribute>
+          <attribute name='accel'>&lt;control&gt;&lt;shift&gt;q</attribute>
+        </item>
       </section>
       
       <section>

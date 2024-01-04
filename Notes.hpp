@@ -33,6 +33,8 @@ class NotesApp : public Gtk::Application
     void on_file_save_as();
     void on_open_file();
     void on_new_file();
+    void on_close_tab();
+    void on_window_closed(NotesWindow* window);
     void create_window();
 
     NotesWindow* mainWindow;

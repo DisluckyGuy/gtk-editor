@@ -3,10 +3,13 @@
 NotesApp::NotesApp() : Gtk::Application("github.DisluckyGuy.myNotes")
 {
     Glib::set_application_name("MyNotes");
+    //mainWindow->signal_close_request().connect(sigc::bind(
+    //sigc::mem_fun(*this, &NotesApp::on_window_closed), mainWindow));
 }
 
 NotesApp::~NotesApp()
 {
+  delete mainWindow;
 }
 
 Glib::RefPtr<NotesApp> NotesApp::create()
@@ -51,6 +54,16 @@ void NotesApp::on_new_file()
   mainWindow->on_new_file();
 }
 
+void NotesApp::on_close_tab()
+{
+  mainWindow->on_close_tab();
+}
+
+void NotesApp::on_window_closed(NotesWindow* window)
+{
+
+}
+
 void NotesApp::create_window()
 {
   auto provider = Gtk::CssProvider::create();
@@ -89,10 +102,12 @@ void NotesApp::on_startup()
   add_action("saveas", sigc::mem_fun(*this, &NotesApp::on_file_save_as));
   add_action("openFile", sigc::mem_fun(*this, &NotesApp::on_open_file));
   add_action("new", sigc::mem_fun(*this, &NotesApp::on_new_file));
+  add_action("closetab", sigc::mem_fun(*this, &NotesApp::on_close_tab));
   set_accel_for_action("app.save", "<primary>s");
   set_accel_for_action("app.saveas", "<primary><shift>s");
   set_accel_for_action("app.new", "<primary>n");
   set_accel_for_action("app.openFile", "<primary>o");
+  set_accel_for_action("app.closetab", "<primary><shift>q");
 
   menuBuilder = Gtk::Builder::create();
 
