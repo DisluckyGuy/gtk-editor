@@ -77,14 +77,13 @@ void NotesApp::create_window()
   auto ctx = mainWindow->get_style_context();
   ctx->add_class("theme");
   ctx->add_provider_for_display(mainWindow->get_display(), provider, GTK_STYLE_PROVIDER_PRIORITY_USER);
-  //Make sure that the application runs for as long this window is still open:
+  
   add_window(*mainWindow);
   mainWindow->set_name("dark_window");
+  mainWindow->set_theme(Theme::Dark);
 
   auto actionGroup = Gio::SimpleActionGroup::create();
 
-  //Delete the window when it is hidden.
-  //That's enough for this simple example.
   mainWindow->signal_hide().connect(sigc::bind(
     sigc::mem_fun(*this, &NotesApp::on_window_hide), mainWindow));
     mainWindow->set_show_menubar();

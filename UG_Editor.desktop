@@ -2,9 +2,7 @@
 [Desktop Entry]
 Type=Application
 Name=UG Editor
-GenericName=Geditor
 Comment=A bad text editor by dislucky
-Icon=editorApp
+Icon="logo.png"
 StartupNotify=true
-Exec=@bindir@/notes_app
-Categories=GNOME;GTK;Utility
+Exec="/home/mostafa/Code/gtk-notes/build/notes_app"

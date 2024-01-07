@@ -20,7 +20,6 @@ void NotesWindow::set_theme(Theme theme)
     if (theme == Theme::Dark) {
         textTabs->set_name("dark_window"); 
         textTabs->get_first_child()->set_name("dark_window");
-        textTabs->get_first_child()->set_name("dark_window");
         textTabs->get_last_child()->set_name("dark_window");
         for (textPage* page : tabContents) {
             page->view.set_name("dark_view"); 
@@ -29,7 +28,6 @@ void NotesWindow::set_theme(Theme theme)
     } else if (theme == Theme::Light) {
         textTabs->set_name("light_window");
         textTabs->get_first_child()->set_name("light_window");
-        textTabs->get_last_child()->set_name("light_window");
         textTabs->get_last_child()->set_name("light_window");
         for (textPage* page : tabContents) {
             page->view.set_name("light_view"); 
@@ -85,6 +83,7 @@ void NotesWindow::writeToFile()
     fb.open(tabContents[getCurrentTextPage()]->filePath, std::ios::out);
     std::ostream os(&fb);
     os << str;
+    tabContents[getCurrentTextPage()]->saved = true;
     fb.close();
     
 }
@@ -148,13 +147,20 @@ void NotesWindow::on_window_open()
     std::istream is(&fb);
     while (is) {
         getline(is, str);
+        
         if (str == "") {
-            break;
+            std::cout << "break due to empty string" << std::endl;
+            continue;
         }
         std::string name = str.substr(0,str.find_first_of(":"));
         std::string path = str.substr(str.find_first_of(":") + 2, str.size() - 1);
-        
+        std::filebuf tempfb;
+        if (!tempfb.open(path, std::ios::in)) {
+            continue;
+        }
+        tempfb.close();
         addPage(path);
+        
     }
     if (textTabs->get_n_pages() == 0) {
         newUntitled();
@@ -164,6 +170,13 @@ void NotesWindow::on_window_open()
 
 void NotesWindow::on_window_close()
 {
+    int notSaved = 0;
+    for (textPage* page : tabContents) {
+        if (page->saved == false) {
+            notSaved += 1;
+        }
+    }
+    //std::cout << notSaved << std::endl;
     std::filebuf fb;
     
     if (!fb.open("../configs/toOpen.config", std::ios::out)) {
@@ -270,6 +283,7 @@ void NotesWindow::on_buffer_changed(textPage* page)
     if (!(page->label.get_text()[page->label.get_text().size() - 1] == '*')) {
         page->label.set_text(page->label.get_text() + "*");
     }
+    page->saved = false;
 }
 
 void NotesWindow::initWindow()
@@ -302,7 +316,6 @@ int NotesWindow::getCurrentTextPage()
     correctOrder();
     for (int i = 0; i < tabContents.size();i++) {
         if (tabContents[i]->pageNumber == textTabs->get_current_page()) {
-            std::cout << i << std::endl;
             return i;
         }
     }
@@ -330,6 +343,7 @@ void NotesWindow::addPage(std::string path)
     newPage->scrollable.set_child(newPage->view);
     newPage->pageNumber = 0;
     if (theme == Theme::Dark) {
+
         textTabs->set_name("dark_tab");
         textTabs->get_first_child()->set_name("dark_tab");
         textTabs->get_last_child()->set_name("dark_tab");
@@ -365,6 +379,8 @@ void NotesWindow::newPage(std::string path, std::string name)
 void NotesWindow::newUntitled()
 {
     textPage* newPage = new textPage;
+
+    newPage->saved = false;
 
     textTabs->set_expand();
 
@@ -423,7 +439,7 @@ void NotesWindow::onNoFileOpened()
 void NotesWindow::saveFileAs(std::string path, std::string name)
 {
     
-
+    tabContents[getCurrentTextPage()]->saved = true;
     std::string labelName = tabContents[getCurrentTextPage()]->label.get_text();
     if (labelName[labelName.size() - 1] == '*') {
         labelName = labelName.substr(0, labelName.size() - 1);
@@ -442,10 +458,12 @@ void NotesWindow::saveFileAs(std::string path, std::string name)
 
         if (tabContents[getCurrentTextPage()]->filePath == "") {
         if (textTabs->get_tab_label_text(tabContents[getCurrentTextPage()]->scrollable) == "untitled") {
-            textTabs->set_tab_label_text(tabContents[getCurrentTextPage()]->scrollable, name);
+            textTabs->remove_page(getCurrentTextPage());
+            tabContents.erase(tabContents.begin() + getCurrentTextPage());
+            addPage(path);
         }
         tabContents[getCurrentTextPage()]->filePath = path;
-        tabContents[getCurrentTextPage()]->buffer->signal_changed().connect(sigc::bind(sigc::mem_fun(*this,  &NotesWindow::on_buffer_changed), tabContents[getCurrentTextPage()]), true);
+        //tabContents[getCurrentTextPage()]->buffer->signal_changed().connect(sigc::bind(sigc::mem_fun(*this,  &NotesWindow::on_buffer_changed), tabContents[getCurrentTextPage()]), true);
     } else {
         addPage(path);
     }

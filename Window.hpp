@@ -17,6 +17,7 @@ struct textPage
     Gtk::Label label;
     std::string filePath = "";
     int pageNumber;
+    bool saved = true;
 };
 
 
